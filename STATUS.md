@@ -5,7 +5,7 @@
 
 ## Current version
 
-`1.1.0` — première release publiée sur GitHub (tag `v1.1.0`).
+`1.1.1` — correctif WP Fastest Cache + fenêtre sur page floutée (tag `v1.1.1`).
 
 ## Completed
 

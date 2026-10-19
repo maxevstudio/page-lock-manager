@@ -8,6 +8,8 @@ projet suit le [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [1.1.1] — 2026-10-19
+
 ### Fixed
 - Le bon mot de passe ramenait au formulaire sur les sites utilisant
   WP Fastest Cache : ce plugin ignore `DONOTCACHEPAGE` et servait la version
