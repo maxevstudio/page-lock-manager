@@ -5,9 +5,7 @@
 
 ## Current version
 
-`1.0.0` publiée historiquement (sans dépôt). Les changements de la future
-**1.1.0** sont dans `[Unreleased]` de [CHANGELOG.md](CHANGELOG.md), non encore
-tagués.
+`1.1.0` — première release publiée sur GitHub (tag `v1.1.0`).
 
 ## Completed
 
@@ -38,6 +36,6 @@ tagués.
 
 ## Next
 
-1. Tester la branche sur le site Idylle (ou une copie) avant de taguer.
-2. `npm run release -- --version=1.1.0` puis `git push origin main --follow-tags`.
-3. Installer une fois le ZIP 1.1.0 à la main sur les sites existants.
+1. Installer une fois le ZIP 1.1.0 à la main sur les sites existants (dont
+   Idylle Production), puis vérifier les pages protégées en navigation privée.
+2. Vérifier à la release suivante que la mise à jour automatique s'installe.

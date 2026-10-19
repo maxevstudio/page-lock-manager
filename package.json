@@ -1,6 +1,6 @@
 {
 	"name": "page-lock-manager",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"description": "Plugin WordPress pour protéger des pages par mot de passe avec interface admin moderne.",
 	"author": "Maxev",
 	"license": "GPL-2.0-or-later",

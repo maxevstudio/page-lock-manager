@@ -8,6 +8,8 @@ projet suit le [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [1.1.0] — 2026-10-19
+
 ### Security
 - La protection s'appuie désormais sur le mécanisme natif de WordPress
   (`post_password_required`). Corrige le contournement de la protection sur
