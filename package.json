@@ -1,0 +1,15 @@
+{
+	"name": "page-lock-manager",
+	"version": "1.0.0",
+	"description": "Plugin WordPress pour protéger des pages par mot de passe avec interface admin moderne.",
+	"private": true,
+	"scripts": {
+		"build": "wp-scripts build",
+		"start": "wp-scripts start",
+		"lint:js": "wp-scripts lint-js src/",
+		"lint:css": "wp-scripts lint-style assets/css/"
+	},
+	"devDependencies": {
+		"@wordpress/scripts": "^30.0.0"
+	}
+}

@@ -1,0 +1,102 @@
+/* Page Lock Manager — Front Lock Form */
+
+.plm-lock-form {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 300px;
+	padding: 40px 20px;
+}
+
+.plm-lock-form__inner {
+	max-width: 420px;
+	width: 100%;
+	text-align: center;
+}
+
+.plm-lock-form__icon {
+	color: #1e1e1e;
+	margin-bottom: 16px;
+	opacity: 0.7;
+}
+
+.plm-lock-form__icon svg {
+	display: inline-block;
+}
+
+.plm-lock-form__title {
+	font-size: 22px;
+	font-weight: 600;
+	margin: 0 0 8px;
+	color: inherit;
+}
+
+.plm-lock-form__desc {
+	font-size: 14px;
+	color: inherit;
+	opacity: 0.6;
+	margin: 0 0 24px;
+	line-height: 1.5;
+}
+
+.plm-lock-form__error {
+	background: #fcf0f1;
+	border-left: 3px solid #d63638;
+	color: #d63638;
+	padding: 10px 14px;
+	margin-bottom: 16px;
+	border-radius: 4px;
+	font-size: 13px;
+	text-align: left;
+}
+
+.plm-lock-form__form {
+	text-align: left;
+}
+
+.plm-lock-form__field {
+	margin-bottom: 16px;
+}
+
+.plm-lock-form__field input[type="password"] {
+	width: 100%;
+	padding: 10px 14px;
+	font-size: 15px;
+	font-family: inherit;
+	border: 1px solid currentColor;
+	border-radius: 4px;
+	outline: none;
+	opacity: 0.4;
+	transition: opacity 0.15s ease;
+	box-sizing: border-box;
+	background: transparent;
+	color: inherit;
+}
+
+.plm-lock-form__field input[type="password"]:focus {
+	opacity: 1;
+}
+
+.plm-lock-form__submit {
+	display: block;
+	width: 100%;
+	padding: 12px;
+	font-size: 15px;
+	font-weight: 600;
+	font-family: inherit;
+	color: #fff;
+	background: #1e1e1e;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: opacity 0.15s ease;
+}
+
+.plm-lock-form__submit:hover {
+	opacity: 0.8;
+}
+
+.plm-lock-form__submit:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+}

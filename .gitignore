@@ -1,0 +1,19 @@
+# Dépendances
+/node_modules/
+
+# Build (généré par `npm run build`, jamais modifié à la main)
+/build/
+
+# Distribution (générée par `npm run package` / `npm run release`)
+/dist/
+
+# Outils locaux
+.claude/
+.wp-playground/
+
+# Éditeurs / OS
+.DS_Store
+.vscode/
+.idea/
+*.log
+npm-debug.log*
