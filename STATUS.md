@@ -26,12 +26,15 @@
   no-cache, panneau éditeur affiché, nouveau mot de passe hashé sans trace en
   clair, ancien mot de passe refusé, colonne admin correcte.
 
+- Release `v1.1.0` : ZIP joint par la CI, dossier racine `page-lock-manager/`.
+  Une copie maquillée en 1.0.9 détecte la 1.1.0, l'auto-update est forcé,
+  et la mise à jour s'installe depuis GitHub en restant active (contexte
+  cron, comme les mises à jour automatiques de WordPress).
+
 ## Non vérifié
 
 - Metabox de l'éditeur classique (plugin Classic Editor) : code relu, non
   testé dans un navigateur.
-- Mise à jour automatique de bout en bout : nécessite une première release
-  GitHub publiée.
 - Comportement sur le site Idylle Production réel (thème, WP Rocket, CDN).
 
 ## Next
