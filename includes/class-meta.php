@@ -8,6 +8,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Gère l'enregistrement des post meta du plugin.
+ *
+ * `_plm_password_hash` n'est volontairement jamais exposé dans l'API REST.
  */
 class Meta {
 
@@ -16,44 +18,37 @@ class Meta {
 	}
 
 	/**
-	 * Enregistre les meta pour les pages.
+	 * Seuls les utilisateurs pouvant éditer le post lisent/écrivent ces meta.
+	 *
+	 * @param bool   $allowed  Autorisation existante.
+	 * @param string $meta_key Clé de la meta.
+	 * @param int    $post_id  Post concerné.
+	 */
+	public function can_edit_meta( $allowed, $meta_key, $post_id ): bool {
+		return \current_user_can( 'edit_post', (int) $post_id );
+	}
+
+	/**
+	 * Enregistre les meta pour les post types supportés.
 	 */
 	public function register_meta(): void {
-		$post_types = \apply_filters( 'plkm_supported_post_types', [ 'page' ] );
+		$metas = [
+			'_plm_locked'       => [ 'boolean', false, 'rest_sanitize_boolean' ],
+			'_plm_password'     => [ 'string', '', 'sanitize_text_field' ],
+			'_plm_has_password' => [ 'boolean', false, 'rest_sanitize_boolean' ],
+		];
 
-		foreach ( $post_types as $post_type ) {
-			\register_post_meta( $post_type, '_plm_locked', [
-				'type'              => 'boolean',
-				'single'            => true,
-				'default'           => false,
-				'show_in_rest'      => true,
-				'sanitize_callback' => 'rest_sanitize_boolean',
-				'auth_callback'     => function () {
-					return \current_user_can( 'edit_pages' );
-				},
-			] );
-
-			\register_post_meta( $post_type, '_plm_password', [
-				'type'              => 'string',
-				'single'            => true,
-				'default'           => '',
-				'show_in_rest'      => true,
-				'sanitize_callback' => 'sanitize_text_field',
-				'auth_callback'     => function () {
-					return \current_user_can( 'edit_pages' );
-				},
-			] );
-
-			\register_post_meta( $post_type, '_plm_has_password', [
-				'type'              => 'boolean',
-				'single'            => true,
-				'default'           => false,
-				'show_in_rest'      => true,
-				'sanitize_callback' => 'rest_sanitize_boolean',
-				'auth_callback'     => function () {
-					return \current_user_can( 'edit_pages' );
-				},
-			] );
+		foreach ( get_supported_post_types() as $post_type ) {
+			foreach ( $metas as $key => [ $type, $default, $sanitize ] ) {
+				\register_post_meta( $post_type, $key, [
+					'type'              => $type,
+					'single'            => true,
+					'default'           => $default,
+					'show_in_rest'      => true,
+					'sanitize_callback' => $sanitize,
+					'auth_callback'     => [ $this, 'can_edit_meta' ],
+				] );
+			}
 		}
 	}
 }

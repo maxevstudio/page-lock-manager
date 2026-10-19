@@ -1,0 +1,48 @@
+name: Release
+
+# Construit le ZIP installable et le joint à une GitHub Release dès qu'un tag
+# de version (ex. v1.1.0) est poussé. Les sites WordPress détectent ensuite la
+# release via includes/class-updater.php et s'y mettent à jour.
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Vérifier que le tag correspond à la version du plugin
+        run: |
+          plugin_version=$(grep -m1 -E '^\s*\* Version:' page-lock-manager.php | awk '{print $NF}')
+          if [ "v${plugin_version}" != "${GITHUB_REF_NAME}" ]; then
+            echo "Tag ${GITHUB_REF_NAME} ≠ version du plugin ${plugin_version}" >&2
+            exit 1
+          fi
+
+      - name: Lint
+        run: |
+          find . -name "*.php" -not -path "./node_modules/*" -print0 | xargs -0 -n1 php -l
+          npm run lint:js
+          npm run lint:css
+
+      - name: Build + ZIP
+        run: npm run package
+
+      - name: Publier la GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/page-lock-manager-*.zip
+          generate_release_notes: true

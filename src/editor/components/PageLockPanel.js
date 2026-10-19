@@ -1,7 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { useCallback, useState } from '@wordpress/element';
-import { PluginDocumentSettingPanel } from '@wordpress/edit-post';
+import { PluginDocumentSettingPanel } from '@wordpress/editor';
 import {
 	ToggleControl,
 	TextControl,
@@ -14,9 +14,13 @@ import {
 
 /**
  * Génère un mot de passe aléatoire.
+ *
+ * @param {number} length Longueur du mot de passe.
+ * @return {string} Mot de passe généré.
  */
 function generatePassword( length = 12 ) {
-	const chars = 'abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789!@#$%';
+	const chars =
+		'abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789!@#$%';
 	let password = '';
 	const array = new Uint32Array( length );
 	crypto.getRandomValues( array );
@@ -30,7 +34,8 @@ export default function PageLockPanel() {
 	const [ showPassword, setShowPassword ] = useState( false );
 
 	const { isLocked, hasPassword, meta } = useSelect( ( select ) => {
-		const postMeta = select( 'core/editor' ).getEditedPostAttribute( 'meta' ) || {};
+		const postMeta =
+			select( 'core/editor' ).getEditedPostAttribute( 'meta' ) || {};
 		return {
 			isLocked: !! postMeta._plm_locked,
 			hasPassword: !! postMeta._plm_has_password,
@@ -81,7 +86,10 @@ export default function PageLockPanel() {
 		>
 			<div className="plm-editor-panel">
 				<ToggleControl
-					label={ __( 'Protéger cette page par mot de passe', 'page-lock-manager' ) }
+					label={ __(
+						'Protéger cette page par mot de passe',
+						'page-lock-manager'
+					) }
 					checked={ isLocked }
 					onChange={ handleToggle }
 				/>
@@ -90,19 +98,31 @@ export default function PageLockPanel() {
 					<>
 						<div className="plm-editor-panel__password">
 							<TextControl
-								label={ __( 'Mot de passe', 'page-lock-manager' ) }
+								label={ __(
+									'Mot de passe',
+									'page-lock-manager'
+								) }
 								type={ showPassword ? 'text' : 'password' }
 								value={ password }
 								onChange={ handlePasswordChange }
 								placeholder={
 									hasPassword && ! password
 										? __( '••••••••', 'page-lock-manager' )
-										: __( 'Saisir un mot de passe', 'page-lock-manager' )
+										: __(
+												'Saisir un mot de passe',
+												'page-lock-manager'
+										  )
 								}
 								help={
 									hasPassword && ! password
-										? __( 'Un mot de passe est déjà défini. Saisissez-en un nouveau pour le modifier.', 'page-lock-manager' )
-										: __( 'Ce mot de passe sera requis pour accéder à la page.', 'page-lock-manager' )
+										? __(
+												'Un mot de passe est déjà défini. Saisissez-en un nouveau pour le modifier.',
+												'page-lock-manager'
+										  )
+										: __(
+												'Ce mot de passe sera requis pour accéder à la page.',
+												'page-lock-manager'
+										  )
 								}
 								autoComplete="new-password"
 							/>
@@ -110,12 +130,20 @@ export default function PageLockPanel() {
 								<FlexItem>
 									<Button
 										variant="link"
-										onClick={ () => setShowPassword( ! showPassword ) }
+										onClick={ () =>
+											setShowPassword( ! showPassword )
+										}
 										size="small"
 									>
 										{ showPassword
-											? __( 'Masquer', 'page-lock-manager' )
-											: __( 'Afficher', 'page-lock-manager' ) }
+											? __(
+													'Masquer',
+													'page-lock-manager'
+											  )
+											: __(
+													'Afficher',
+													'page-lock-manager'
+											  ) }
 									</Button>
 								</FlexItem>
 								<FlexItem>
@@ -132,7 +160,10 @@ export default function PageLockPanel() {
 
 						{ ! hasPassword && ! password && (
 							<Notice status="warning" isDismissible={ false }>
-								{ __( 'Définissez un mot de passe avant de publier.', 'page-lock-manager' ) }
+								{ __(
+									'Définissez un mot de passe avant de publier.',
+									'page-lock-manager'
+								) }
 							</Notice>
 						) }
 
@@ -143,7 +174,12 @@ export default function PageLockPanel() {
 										<Icon icon="lock" size={ 18 } />
 									</FlexItem>
 									<FlexItem>
-										<strong>{ __( 'Page protégée', 'page-lock-manager' ) }</strong>
+										<strong>
+											{ __(
+												'Page protégée',
+												'page-lock-manager'
+											) }
+										</strong>
 									</FlexItem>
 								</Flex>
 							</div>
@@ -153,7 +189,10 @@ export default function PageLockPanel() {
 
 				{ ! isLocked && (
 					<p className="plm-editor-panel__hint">
-						{ __( 'Activez la protection pour restreindre l\'accès à cette page par mot de passe.', 'page-lock-manager' ) }
+						{ __(
+							"Activez la protection pour restreindre l'accès à cette page par mot de passe.",
+							'page-lock-manager'
+						) }
 					</p>
 				) }
 			</div>

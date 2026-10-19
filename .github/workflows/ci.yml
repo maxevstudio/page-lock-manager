@@ -1,0 +1,35 @@
+name: CI
+
+# Lint + build à chaque push et pull request, pour détecter une régression
+# avant qu'un tag de release ne soit poussé (voir release.yml).
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: PHP lint
+        run: find . -name "*.php" -not -path "./node_modules/*" -print0 | xargs -0 -n1 php -l
+
+      - name: JS lint
+        run: npm run lint:js
+
+      - name: CSS lint
+        run: npm run lint:css
+
+      - name: Build + ZIP
+        run: npm run package

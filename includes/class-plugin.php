@@ -24,7 +24,9 @@ class Plugin {
 		new Meta();
 		new Rest();
 		new Admin_Columns();
+		new Meta_Box();
 		new Front_Protection();
+		new Updater();
 
 		\add_action( 'enqueue_block_editor_assets', [ $this, 'enqueue_editor_assets' ] );
 	}
@@ -38,8 +40,7 @@ class Plugin {
 			return;
 		}
 
-		$post_types = \apply_filters( 'plkm_supported_post_types', [ 'page' ] );
-		if ( ! in_array( $screen->post_type, $post_types, true ) ) {
+		if ( ! in_array( $screen->post_type, get_supported_post_types(), true ) ) {
 			return;
 		}
 
