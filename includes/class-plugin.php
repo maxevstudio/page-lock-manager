@@ -22,6 +22,7 @@ class Plugin {
 
 	private function __construct() {
 		new Meta();
+		new Cache();
 		new Rest();
 		new Admin_Columns();
 		new Meta_Box();

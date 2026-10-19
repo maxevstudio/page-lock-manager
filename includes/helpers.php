@@ -66,6 +66,7 @@ function set_page_password( int $post_id, string $password ): void {
 	\update_post_meta( $post_id, '_plm_has_password', true );
 	\update_post_meta( $post_id, '_plm_locked', true );
 	\delete_post_meta( $post_id, '_plm_password' );
+	purge_page_cache( $post_id );
 }
 
 /**
@@ -76,6 +77,7 @@ function remove_page_lock( int $post_id ): void {
 	\delete_post_meta( $post_id, '_plm_password_hash' );
 	\delete_post_meta( $post_id, '_plm_has_password' );
 	\delete_post_meta( $post_id, '_plm_password' );
+	purge_page_cache( $post_id );
 }
 
 /**

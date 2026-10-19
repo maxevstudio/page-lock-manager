@@ -37,6 +37,7 @@ define( 'PLKM_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'PLKM_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 
 require_once PLKM_PLUGIN_DIR . 'includes/helpers.php';
+require_once PLKM_PLUGIN_DIR . 'includes/class-cache.php';
 require_once PLKM_PLUGIN_DIR . 'includes/class-meta.php';
 require_once PLKM_PLUGIN_DIR . 'includes/class-rest.php';
 require_once PLKM_PLUGIN_DIR . 'includes/class-admin-columns.php';

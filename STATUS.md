@@ -31,6 +31,15 @@
   et la mise à jour s'installe depuis GitHub en restant active (contexte
   cron, comme les mises à jour automatiques de WordPress).
 
+## Vérifié sur le site local Idylle (MAMP, thème Twenty Twenty-Five, WP Fastest Cache 1.5.3)
+
+- Bug signalé reproduit : WP Fastest Cache mettait les pages protégées en
+  cache malgré `DONOTCACHEPAGE`, le bon mot de passe ramenait au formulaire.
+- Après correctif : pages exclues du cache (« This page has been excluded »),
+  aucun fichier de cache créé, mauvais mot de passe → erreur sur place, bon
+  mot de passe → contenu affiché (avec et sans JavaScript), autre visiteur
+  toujours bloqué, fenêtre sans `<p>`/`<br>` parasites.
+
 ## Non vérifié
 
 - Metabox de l'éditeur classique (plugin Classic Editor) : code relu, non

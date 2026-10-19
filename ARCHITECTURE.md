@@ -12,7 +12,8 @@ includes/
   class-rest.php             Hash du mot de passe après sauvegarde REST (éditeur de blocs)
   class-meta-box.php         Metabox de l'éditeur classique (__back_compat_meta_box)
   class-admin-columns.php    Colonne « Protection » des listes admin
-  class-front-protection.php Protection front (filtres natifs), formulaire, cache, noindex
+  class-cache.php            Exclusion et purge des plugins de cache (WPFC, WP Rocket, LiteSpeed…)
+  class-front-protection.php Protection front (filtres natifs), fenêtre de mot de passe, noindex
   class-updater.php          Mises à jour depuis les releases GitHub
 src/editor/                  Panneau React de l'éditeur (PluginDocumentSettingPanel)
 src/front/                   Petit script d'état de chargement du formulaire
@@ -43,12 +44,25 @@ publique et la colonne admin l'indique « Sans mot de passe ».
    `content.rendered` de l'API REST, et Elementor (qui n'affiche pas son
    contenu builder si la page exige un mot de passe).
 2. `the_password_form` : remplace le formulaire natif par le nôtre, uniquement
-   sur nos pages.
-3. `template_redirect` : traite le POST (nonce, limite d'essais, vérification
-   du hash), pose le cookie puis redirige (PRG).
-4. `DONOTCACHEPAGE` + `nocache_headers()` sur les pages protégées, et dès le
-   chargement du plugin si un cookie `plm_access_*` est présent.
+   sur nos pages. Le balisage est mis de côté autour de `wpautop`
+   (`the_content` priorités 9 → 99) pour ne pas être déformé.
+3. Rendu : gabarit factice flouté (aucun contenu réel) + fenêtre fixe
+   `role="dialog"`. Le script front la déplace sous `<body>` (immunisé contre
+   les `transform` des thèmes) et envoie le mot de passe en `fetch`
+   (`plm_ajax=1` → JSON) ; sans JS, POST classique puis redirection.
+4. `template_redirect` : traite le POST (limite d'essais, vérification du
+   hash), pose le cookie puis répond en JSON ou redirige (PRG). Pas de nonce :
+   formulaire public, et un nonce figé dans un cache bloquerait les visiteurs.
 5. `wp_robots` : `noindex, nofollow`.
+
+## Cache de page
+
+Une page protégée n'est jamais mise en cache, quel que soit le visiteur
+(`Cache::exclude_locked_page()`) : `DONOTCACHEPAGE` (WP Rocket, W3TC, Super
+Cache…), `wpfc_exclude_current_page()` (**WP Fastest Cache ignore
+`DONOTCACHEPAGE`**, vérifié en 1.5.3), `litespeed_control_set_nocache`, et
+`nocache_headers()`. `purge_page_cache()` vide la page dans ces plugins à
+chaque changement de protection ou de mot de passe.
 
 Cookie : `plm_access_{ID}` = `wp_hash( hash . '|' . ID )`, HttpOnly, SameSite
 Lax, 24 h (`plkm_cookie_lifetime`). Changer le mot de passe invalide les

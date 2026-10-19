@@ -8,6 +8,31 @@ projet suit le [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+- Le bon mot de passe ramenait au formulaire sur les sites utilisant
+  WP Fastest Cache : ce plugin ignore `DONOTCACHEPAGE` et servait la version
+  verrouillée depuis son cache. Les pages protégées sont désormais exclues via
+  `wpfc_exclude_current_page()` (et l'API de LiteSpeed Cache), ce qui évite
+  aussi qu'une version déverrouillée soit mise en cache et servie à tous.
+- Le cache de la page est vidé (WP Fastest Cache, WP Rocket, W3 Total Cache,
+  WP Super Cache, LiteSpeed) quand sa protection ou son mot de passe change.
+- Le formulaire n'est plus déformé par `wpautop` (paragraphes et sauts de
+  ligne parasites selon le thème).
+- Plus de nonce dans le formulaire : une page verrouillée servie par un cache
+  contenait un nonce expiré qui bloquait silencieusement les visiteurs.
+
+### Changed
+- Nouveau design : la page reste visible mais floutée, avec une fenêtre aux
+  bords arrondis pour le mot de passe. La zone de contenu floutée est un
+  gabarit factice : le vrai contenu n'est jamais envoyé avant le mot de passe.
+- Vérification sans rechargement (erreur affichée sur place), le flou se
+  dissipe avant l'affichage de la page. Fonctionne toujours sans JavaScript.
+- Couleurs et arrondis personnalisables par variables CSS (`--plm-accent`…).
+
+### Added
+- Indicateur « Page protégée » dans la barre d'admin pour les utilisateurs
+  connectés, qui voient la page sans mot de passe.
+
 ## [1.1.0] — 2026-10-19
 
 ### Security
